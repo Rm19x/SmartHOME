@@ -1,0 +1,111 @@
+/*
+ * Copyright (c) 2026 Mr.Rm19
+ * GitHub: https://github.com/Rm19x
+ * All rights reserved.
+ *
+ * This file is part of the Real-World Smart Home Automation System.
+ * Built with Kotlin & Jetpack Compose for production environment.
+ */
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.mrrm19.smarthome'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.mrrm19.smarthome"
+        minSdk 26 // Mendukung Android 8.0 ke atas agar  Biometric & Glance berjalan optimal
+        targetSdk 34
+        versionCode 1
+        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+        // Konfigurasi Room untuk ekspor skema (opsional)
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    
+    buildFeatures {
+        compose true
+    }
+    
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.8' // Cocok dengan Kotlin 1.9.X
+    }
+    
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    // --- AndroidX Core & Lifecycle ---
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
+    implementation 'androidx.activity:activity-compose:1.8.2'
+
+    // --- Jetpack Compose UI Components ---
+    implementation "androidx.compose.ui:ui:1.6.1"
+    implementation "androidx.compose.ui:ui-graphics:1.6.1"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.6.1"
+    implementation "androidx.compose.material3:material3:1.2.0"
+    implementation "androidx.compose.material:material-icons-extended:1.6.1"
+
+    // --- Eclipse Paho MQTT Client & Android Service ( 1, 2, 3, 10, 11) ---
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0' // Diperlukan sebagai pondasi Paho Service
+
+    // --- Android Room Database ( 5, 44) ---
+    implementation "androidx.room:room-runtime:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+
+    // --- Jetpack DataStore Preferences ( 16, 24) ---
+    implementation "androidx.datastore:datastore-preferences:1.1.1"
+
+    // --- Biometric Security Prompt ( 50) ---
+    implementation "androidx.biometric:biometric:1.2.0-alpha05"
+
+    // --- Jetpack Glance App Widget ( 9) ---
+    implementation "androidx.glance:glance-appwidget:1.1.0"
+
+    // --- Testing (Bawaan) ---
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.6.1"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.6.1"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:1.6.1"
+}
